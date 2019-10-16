@@ -7,3 +7,5 @@ Currently, for the editions app, we build our article webviews on the fly. In fu
 Feel free to never use this code or - if it ever gets used - rip it out when something better comes along. Hopefull the similarity to components will make porting it to a JSX type thing easier in future - but it may not.
 
 Best place to look to understand this API is `./lib.ts` (there are lots of comments) and the associated test for it. Or just poke around in some of the components.
+
+TL;DR - this is a big stopgap
