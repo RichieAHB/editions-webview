@@ -1,5 +1,6 @@
 import { img, figure, figcaption } from "../helpers";
 import { styled } from "../styles";
+import { ImageEl } from "../model/Article";
 
 const wrapper = styled(figure)`
   margin: 8px 0;
@@ -24,10 +25,14 @@ const captionText = styled(figcaption)`
   }
 `;
 
-export const InlineImage = ({
-  src,
-  caption
-}: {
-  src: string;
-  caption: string;
-}) => wrapper(image.attrs({ src })(), captionText(caption));
+export const InlineImage = ({ src, caption, role }: ImageEl) => {
+  switch (role) {
+    // TODO add more of these
+    case "immersive":
+    case "inline":
+    case "showcase":
+    case "supporting":
+    case "thumbnail":
+      return wrapper(image.attrs({ src })(), captionText(caption));
+  }
+};

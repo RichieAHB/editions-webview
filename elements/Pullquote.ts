@@ -1,6 +1,7 @@
 import { svg, path, blockquote, cite } from "../helpers";
 import { styled } from "../styles";
 import { Quote } from "./Quote";
+import { PullquoteEl } from "../model/Article";
 
 const attrib = styled(cite)`
   font-style: normal;
@@ -22,40 +23,36 @@ const quote = styled(blockquote)`
   font-size: 1.1em;
   hyphens: auto;
   z-index: 10000;
+`;
 
-  &[data-role="supporting"] {
-    font-family: GT Guardian Titlepiece;
+const InlineQuote = styled(quote)`
+  @media (max-width: 1000px) {
+    width: 50%;
+    float: left;
+    margin-right: 8px;
   }
 
-  &[data-role="supporting"] ${attrib} {
+  @media (min-width: 1000px) {
+    position: absolute;
+    left: 100%;
+    display: block;
+    width: 180px;
+  }
+`;
+
+const SupportingQuote = styled(InlineQuote)`
+  font-family: GT Guardian Titlepiece;
+
+  ${attrib} {
     color: #111;
   }
+`;
 
-  @media (max-width: 1000px) {
-    &[data-role="inline"],
-    &[data-role="supporting"] {
-      width: 50%;
-      float: left;
-      margin-right: 8px;
-    }
-  }
-
+const ShowcaseQuote = styled(quote)`
   @media (min-width: 1000px) {
-    &[data-role="inline"],
-    &[data-role="supporting"] {
-      position: absolute;
-      left: 100%;
-      display: block;
-      width: 180px;
-    }
-  }
-
-  @media (min-width: 1000px) {
-    &[data-role="showcase"] {
-      width: 60%;
-      float: left;
-      margin-right: 8px;
-    }
+    width: 60%;
+    float: left;
+    margin-right: 8px;
   }
 `;
 
@@ -87,18 +84,19 @@ const Tail = tail.attrs({
   })()
 );
 
-export const Pullquote = ({
-  cite,
-  role,
-  attribution
-}: {
-  cite: string;
-  role: string;
-  attribution?: string;
-}) =>
-  quote.attrs({ "data-role": role })(
+export const Pullquote = ({ cite, role, attribution }: PullquoteEl) => {
+  const children = [
     Quote({ height: "12px" }),
     cite,
     attribution ? attrib(attribution) : "",
     Tail
-  );
+  ];
+  switch (role) {
+    case "inline":
+      return InlineQuote(...children);
+    case "supporting":
+      return SupportingQuote(...children);
+    case "showcase":
+      return ShowcaseQuote(...children);
+  }
+};
