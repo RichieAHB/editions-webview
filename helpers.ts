@@ -1,42 +1,5 @@
-import { build } from "./lib";
 import { Pillar } from "./model/Pillar";
 import { Theme } from "./headers/Theme";
-
-const {
-  div,
-  span,
-  h1,
-  h2,
-  h3,
-  p,
-  img,
-  svg,
-  button,
-  g,
-  path,
-  figure,
-  figcaption,
-  blockquote,
-  cite
-} = build([
-  "div",
-  "span",
-  "h1",
-  "h2",
-  "h3",
-  "p",
-  "img",
-  "svg",
-  "g",
-  "path",
-  "button",
-  "figure",
-  "figcaption",
-  "blockquote",
-  "cite"
-]);
-
-const fragment = (...children: string[]) => children.join("");
 
 const getTheme = (pillar: Pillar): Theme => {
   switch (pillar) {
@@ -93,22 +56,4 @@ const getTheme = (pillar: Pillar): Theme => {
   }
 };
 
-export {
-  fragment,
-  div,
-  p,
-  span,
-  h1,
-  h2,
-  h3,
-  img,
-  svg,
-  g,
-  path,
-  figure,
-  figcaption,
-  button,
-  blockquote,
-  cite,
-  getTheme
-};
+export { getTheme };

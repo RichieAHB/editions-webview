@@ -38,7 +38,7 @@ const ObitKicker = styled(Kicker)`
   bottom: 100%;
 `;
 
-const ObitHeader = ({ article }, { article: Article }) => (
+const ObitHeader = ({ article }: { article: Article }) => (
   <>
     <TrailImage {...article.trailImage} immersive />
     <TopWrapper>

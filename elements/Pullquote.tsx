@@ -69,7 +69,7 @@ const Line = styled.path`
 `;
 
 const Tail = () => (
-  <TailWrapper aria-hidden role="img" xlmns="http://www.w3.org/2000/svg">
+  <TailWrapper aria-hidden role="img">
     <Line d="M22.007 0l-.033.53c-.273 4.415-1.877 9.35-4.702 13.22-3.74 5.124-9.301 8.115-16.763 8.246L0 22.005V0h22.007z" />
     <path
       d="M1 0v20.982c6.885-.248 11.992-3.063 15.464-7.822 2.593-3.552 4.12-8.064 4.473-12.16.033-.38.037-.72.063-1H1z"
