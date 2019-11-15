@@ -64,7 +64,7 @@ describe("createStyleContext", () => {
     it("adds a style for a styled component", () => {
       const div = h("div");
       const { styled, getStyles } = createStyleContext();
-      const StyledDiv = styled(div)`
+      const StyledDiv = styled.div`
         color: blue;
       `;
       expect(getStyles({})).toEqual(`.s1{color:blue;}`);
@@ -74,7 +74,7 @@ describe("createStyleContext", () => {
     it("interpolates themes", () => {
       const div = h("div");
       const { styled, getStyles } = createStyleContext<{ color: string }>();
-      const StyledDiv = styled(div)`
+      const StyledDiv = styled.div`
         color: red;
       `;
       expect(getStyles({ color: "red" })).toEqual(`.s2{color:red;}`);
@@ -84,10 +84,10 @@ describe("createStyleContext", () => {
     it("interpolates other styled components", () => {
       const div = h("div");
       const { styled, getStyles } = createStyleContext();
-      const StyledDiv1 = styled(div)`
+      const StyledDiv1 = styled.div`
         color: gold;
       `;
-      const StyledDiv2 = styled(div)`
+      const StyledDiv2 = styled.div`
         ${StyledDiv1} {
           color: green;
         }
@@ -99,7 +99,7 @@ describe("createStyleContext", () => {
     it("accepts other styled components", () => {
       const div = h("div");
       const { styled, getStyles } = createStyleContext();
-      const StyledDiv1 = styled(div)`
+      const StyledDiv1 = styled.div`
         color: red;
       `;
       const StyledDiv2 = styled(StyledDiv1)`

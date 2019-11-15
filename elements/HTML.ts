@@ -1,6 +1,5 @@
-import { styled } from "../styles";
-import { div } from "../helpers";
+import styled from "styled-components";
 
-export const HTML = styled(div)`
+export const HTML = styled.div`
   line-height: 1.4;
 `;

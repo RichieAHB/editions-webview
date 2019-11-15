@@ -1,4 +1,4 @@
-import { styled } from "../styles";
+import styled from "styled-components";
 import { Kicker } from "./Kicker";
 
 export const BorderedKicker = styled(Kicker)`

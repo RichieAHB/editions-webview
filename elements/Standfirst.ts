@@ -1,7 +1,6 @@
-import { p } from "../helpers";
-import { styled } from "../styles";
+import styled from "styled-components";
 
-const Standfirst = styled(p)`
+const Standfirst = styled.p`
   color: #121212;
   line-height: 24px;
   padding: 0 0 16px;

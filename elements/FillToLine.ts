@@ -1,7 +1,7 @@
-import { styled } from "../styles";
+import styled from "styled-components";
 import { div } from "../helpers";
 
-export const FillToLine = styled(div)`
+export const FillToLine = styled.div`
   margin: 0 -8px;
 
   @media (min-width: 900px) {

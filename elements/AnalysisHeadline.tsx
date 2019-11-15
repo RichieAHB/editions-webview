@@ -1,25 +1,28 @@
-import { h1 } from "../helpers";
-import { styled } from "../styles";
+import React from "react";
+import styled from "styled-components";
 
-const header = styled(h1)`
+const Header = styled.h1`
   color: #000;
   margin: 16px 0 0;
   line-height: 32px;
   font-size: 30px;
   font-weight: 300;
-  text-decoration-color: ${theme => theme.main};
+  text-decoration-color: ${props => props.theme.main};
   text-decoration-thickness: 1px;
 `;
 
 export const AnalysisHeadline = ({
-  title,
+  children,
   underline
 }: {
-  title: string;
+  children: React.ReactNode;
   underline: boolean;
-}) =>
-  header.attrs({
-    style: {
+}) => (
+  <Header
+    style={{
       textDecorationLine: underline ? "underline" : "none"
-    }
-  })(title);
+    }}
+  >
+    {children}
+  </Header>
+);

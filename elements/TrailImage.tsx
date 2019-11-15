@@ -1,7 +1,7 @@
-import { div, button } from "../helpers";
-import { styled } from "../styles";
+import React from "react";
+import styled from "styled-components";
 
-const Wrapper = styled(div)`
+const Wrapper = styled.div`
   background-color: black;
   background-size: cover;
   background-position: 50% 50%;
@@ -29,7 +29,7 @@ const WrapperImmersive = styled(Wrapper)`
   }
 `;
 
-const CreditText = styled(div)`
+const CreditText = styled.div`
   display: none;
   position: absolute;
   color: white;
@@ -38,9 +38,9 @@ const CreditText = styled(div)`
   padding: 16px;
 `;
 
-const Toggle = styled(button)`
+const Toggle = styled.button`
   appearance: none;
-  background-color: ${theme => theme.main}
+  background-color: ${props => props.theme.main}
   border: none;
   border-radius: 100%;
   color: white;
@@ -64,17 +64,21 @@ const TrailImage = ({
   src: string;
   credit: string;
   immersive?: boolean;
-}) =>
-  (immersive ? WrapperImmersive : Wrapper).attrs({
-    id: "trail-wrapper",
-    "data-open": false,
-    style: { backgroundImage: `url(${src})` }
-  })(
-    CreditText.attrs({ "data-credit": true })(credit),
-    Toggle.attrs({
-      onclick:
-        "this.parentNode.dataset.open = !JSON.parse(this.parentNode.dataset.open)"
-    })("")
+}) => {
+  const Parent = immersive ? WrapperImmersive : Wrapper;
+
+  return (
+    <Parent
+      id="trail-wrapper"
+      data-open="false"
+      style={{ backgroundImage: `url(${src})` }}
+    >
+      <CreditText data-credit="true">{credit}</CreditText>
+      <Toggle onclick="this.parentNode.dataset.open = !JSON.parse(this.parentNode.dataset.open)">
+        
+      </Toggle>
+    </Parent>
   );
+};
 
 export { TrailImage };

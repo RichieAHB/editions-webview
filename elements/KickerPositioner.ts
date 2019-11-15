@@ -1,7 +1,6 @@
-import { styled } from "../styles";
-import { div } from "../helpers";
+import styled from "styled-components";
 
-export const KickerPositioner = styled(div)`
+export const KickerPositioner = styled.div`
   margin-left: -8px;
 
   @media (min-width: 614px) {

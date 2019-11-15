@@ -1,13 +1,10 @@
 import { img } from "../helpers";
-import { styled } from "../styles";
+import styled from "styled-components";
 
-const cutout = styled(img)`
+const Cutout = styled.img`
   display: block;
   width: 200px;
   height: auto;
 `;
-
-const Cutout = ({ src }: { src?: string }) =>
-  cutout ? cutout.attrs({ src })() : "";
 
 export { Cutout };

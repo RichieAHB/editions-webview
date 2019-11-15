@@ -1,10 +1,12 @@
+import React from "react";
 import { Article } from "./elements/Article";
 import { ArticleType, articleTypes, exampleArticle } from "./model/Article";
 import { Pillar, pillars } from "./model/Pillar";
-import { injectGlobal, render } from "./styles";
+import { createGlobalStyle, ThemeProvider } from "styled-components";
 import { getTheme } from "./helpers";
+import { render } from "react-dom";
 
-injectGlobal`
+const GlobalStyle = createGlobalStyle`
   *, :before, :after {
     box-sizing: border-box;
   }
@@ -18,14 +20,21 @@ injectGlobal`
   }
 `;
 
+const logDebug = <T extends any>(arg: T): T => (console.log(arg), arg);
+
 const root = document.getElementById("root");
 if (!root) throw new Error("Can't find root element");
 
 const layout = (type: ArticleType, pillar: Pillar) =>
-  (root.innerHTML = render(
-    Article({ ...exampleArticle, type }, pillar), // switch out type here for debugging
-    getTheme(pillar)
-  ));
+  render(
+    <>
+      <GlobalStyle />
+      <ThemeProvider theme={logDebug(getTheme(pillar))}>
+        <Article article={{ ...exampleArticle, type }} pillar={pillar} />
+      </ThemeProvider>
+    </>,
+    root
+  );
 
 const getArticleType = (): ArticleType => {
   const type = window.localStorage.getItem("articleType");

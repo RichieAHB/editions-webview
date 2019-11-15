@@ -1,6 +1,5 @@
-import { styled } from "../styles";
-import { div } from "../helpers";
+import styled from "styled-components";
 
-export const Pad = styled(div)`
+export const Pad = styled.div`
   padding: 0 8px;
 `;

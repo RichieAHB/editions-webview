@@ -1,8 +1,8 @@
-import { img, figure, figcaption } from "../helpers";
-import { styled } from "../styles";
+import React from "react";
+import styled from "styled-components";
 import { ImageEl } from "../model/Article";
 
-const wrapper = styled(figure)`
+const Wrapper = styled.figure`
   margin: 8px 0;
   float: right;
   width: 100%;
@@ -12,11 +12,11 @@ const wrapper = styled(figure)`
   }
 `;
 
-const image = styled(img)`
+const Image = styled.img`
   width: 100%;
 `;
 
-const captionText = styled(figcaption)`
+const CaptionText = styled.figcaption`
   font-size: 12px;
   line-height: 1.4;
 
@@ -33,6 +33,11 @@ export const InlineImage = ({ src, caption, role }: ImageEl) => {
     case "showcase":
     case "supporting":
     case "thumbnail":
-      return wrapper(image.attrs({ src })(), captionText(caption));
+      return (
+        <Wrapper>
+          <Image src={src} />
+          <CaptionText>{caption}</CaptionText>
+        </Wrapper>
+      );
   }
 };
