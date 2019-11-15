@@ -2347,10 +2347,20 @@ var captionText = styles_1.styled(helpers_1.figcaption)(_templateObject3());
 
 exports.InlineImage = function (_ref) {
   var src = _ref.src,
-      caption = _ref.caption;
-  return wrapper(image.attrs({
-    src: src
-  })(), captionText(caption));
+      caption = _ref.caption,
+      role = _ref.role;
+
+  switch (role) {
+    // TODO add more of these
+    case "immersive":
+    case "inline":
+    case "showcase":
+    case "supporting":
+    case "thumbnail":
+      return wrapper(image.attrs({
+        src: src
+      })(), captionText(caption));
+  }
 };
 },{"../helpers":"helpers.ts","../styles":"styles.ts"}],"elements/Kicker.ts":[function(require,module,exports) {
 "use strict";
@@ -3559,8 +3569,38 @@ exports.Header = function (article, pillar) {
 },{"../headers/ArticleHeader":"headers/ArticleHeader.ts","../headers/ObitHeader":"headers/ObitHeader.ts","../headers/ImmersiveHeader":"headers/ImmersiveHeader.ts","../headers/AnalysisHeader":"headers/AnalysisHeader.ts","../headers/ReviewHeader":"headers/ReviewHeader.ts","../headers/InterviewHeader":"headers/InterviewHeader.ts"}],"elements/Pullquote.ts":[function(require,module,exports) {
 "use strict";
 
-function _templateObject4() {
+function _templateObject7() {
   var data = _taggedTemplateLiteral(["\n  fill: ", ";\n"]);
+
+  _templateObject7 = function _templateObject7() {
+    return data;
+  };
+
+  return data;
+}
+
+function _templateObject6() {
+  var data = _taggedTemplateLiteral(["\n  left: -1px;\n  height: 22px;\n  position: absolute;\n  top: 100%;\n  width: 22px;\n"]);
+
+  _templateObject6 = function _templateObject6() {
+    return data;
+  };
+
+  return data;
+}
+
+function _templateObject5() {
+  var data = _taggedTemplateLiteral(["\n  @media (min-width: 1000px) {\n    width: 60%;\n    float: left;\n    margin-right: 8px;\n  }\n"]);
+
+  _templateObject5 = function _templateObject5() {
+    return data;
+  };
+
+  return data;
+}
+
+function _templateObject4() {
+  var data = _taggedTemplateLiteral(["\n  font-family: GT Guardian Titlepiece;\n\n  ", " {\n    color: #111;\n  }\n"]);
 
   _templateObject4 = function _templateObject4() {
     return data;
@@ -3570,7 +3610,7 @@ function _templateObject4() {
 }
 
 function _templateObject3() {
-  var data = _taggedTemplateLiteral(["\n  left: -1px;\n  height: 22px;\n  position: absolute;\n  top: 100%;\n  width: 22px;\n"]);
+  var data = _taggedTemplateLiteral(["\n  @media (max-width: 1000px) {\n    width: 50%;\n    float: left;\n    margin-right: 8px;\n  }\n\n  @media (min-width: 1000px) {\n    position: absolute;\n    left: 100%;\n    display: block;\n    width: 180px;\n  }\n"]);
 
   _templateObject3 = function _templateObject3() {
     return data;
@@ -3580,7 +3620,7 @@ function _templateObject3() {
 }
 
 function _templateObject2() {
-  var data = _taggedTemplateLiteral(["\n  box-sizing: border-box;\n  border: 1px solid ", ";\n  color: ", ";\n  border-top-width: 12px;\n  padding: 4px 1px 8px 8px;\n  position: relative;\n  line-height: 1.2;\n  margin: 0;\n  margin-bottom: calc(22px + 0.25em);\n  margin-top: 0.25em;\n  font-size: 1.1em;\n  hyphens: auto;\n  z-index: 10000;\n\n  &[data-role=\"supporting\"] {\n    font-family: GT Guardian Titlepiece;\n  }\n\n  &[data-role=\"supporting\"] ", " {\n    color: #111;\n  }\n\n  @media (max-width: 1000px) {\n    &[data-role=\"inline\"],\n    &[data-role=\"supporting\"] {\n      width: 50%;\n      float: left;\n      margin-right: 8px;\n    }\n  }\n\n  @media (min-width: 1000px) {\n    &[data-role=\"inline\"],\n    &[data-role=\"supporting\"] {\n      position: absolute;\n      left: 100%;\n      display: block;\n      width: 180px;\n    }\n  }\n\n  @media (min-width: 1000px) {\n    &[data-role=\"showcase\"] {\n      width: 60%;\n      float: left;\n      margin-right: 8px;\n    }\n  }\n"]);
+  var data = _taggedTemplateLiteral(["\n  box-sizing: border-box;\n  border: 1px solid ", ";\n  color: ", ";\n  border-top-width: 12px;\n  padding: 4px 1px 8px 8px;\n  position: relative;\n  line-height: 1.2;\n  margin: 0;\n  margin-bottom: calc(22px + 0.25em);\n  margin-top: 0.25em;\n  font-size: 1.1em;\n  hyphens: auto;\n  z-index: 10000;\n"]);
 
   _templateObject2 = function _templateObject2() {
     return data;
@@ -3616,9 +3656,12 @@ var quote = styles_1.styled(helpers_1.blockquote)(_templateObject2(), function (
   return theme.main;
 }, function (theme) {
   return theme.main;
-}, attrib);
-var tail = styles_1.styled(helpers_1.svg)(_templateObject3());
-var line = styles_1.styled(helpers_1.path)(_templateObject4(), function (theme) {
+});
+var InlineQuote = styles_1.styled(quote)(_templateObject3());
+var SupportingQuote = styles_1.styled(InlineQuote)(_templateObject4(), attrib);
+var ShowcaseQuote = styles_1.styled(quote)(_templateObject5());
+var tail = styles_1.styled(helpers_1.svg)(_templateObject6());
+var line = styles_1.styled(helpers_1.path)(_templateObject7(), function (theme) {
   return theme.main;
 });
 var Tail = tail.attrs({
@@ -3636,11 +3679,20 @@ exports.Pullquote = function (_ref) {
   var cite = _ref.cite,
       role = _ref.role,
       attribution = _ref.attribution;
-  return quote.attrs({
-    "data-role": role
-  })(Quote_1.Quote({
+  var children = [Quote_1.Quote({
     height: "12px"
-  }), cite, attribution ? attrib(attribution) : "", Tail);
+  }), cite, attribution ? attrib(attribution) : "", Tail];
+
+  switch (role) {
+    case "inline":
+      return InlineQuote.apply(void 0, children);
+
+    case "supporting":
+      return SupportingQuote.apply(void 0, children);
+
+    case "showcase":
+      return ShowcaseQuote.apply(void 0, children);
+  }
 };
 },{"../helpers":"helpers.ts","../styles":"styles.ts","./Quote":"elements/Quote.ts"}],"elements/Article.ts":[function(require,module,exports) {
 "use strict";
@@ -3722,6 +3774,51 @@ var exampleArticle = {
   }, {
     type: "image",
     caption: "This is my image it is one of the nicest images in the world",
+    role: "inline",
+    src: "https://i.guim.co.uk/img/media/376f51d0a14fa7b1c16d98ae5d6cf48fe6ef48ad/0_0_3600_2160/master/3600.jpg?width=300&quality=85&auto=format&fit=max&s=a9ab6ac4ea8aed40de292647e0bc497f"
+  }, {
+    type: "html",
+    html: "<p>Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. Aenean ultricies mi vitae est. Mauris placerat eleifend leo. Quisque sit amet est et sapien ullamcorper pharetra. Vestibulum erat wisi, condimentum sed, commodo vitae, ornare sit amet, wisi. Aenean fermentum, elit eget tincidunt condimentum, eros ipsum rutrum orci, sagittis tempus lacus enim ac dui. Donec non enim in turpis pulvinar facilisis. Ut felis. Praesent dapibus, neque id cursus faucibus, tortor neque egestas augue, eu vulputate magna eros eu erat. Aliquam erat volutpat. Nam dui mi, tincidunt quis, accumsan porttitor, facilisis luctus, metus</p>"
+  }, {
+    type: "html",
+    html: "<p>Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. Aenean ultricies mi vitae est. Mauris placerat eleifend leo. Quisque sit amet est et sapien ullamcorper pharetra. Vestibulum erat wisi, condimentum sed, commodo vitae, ornare sit amet, wisi. Aenean fermentum, elit eget tincidunt condimentum, eros ipsum rutrum orci, sagittis tempus lacus enim ac dui. Donec non enim in turpis pulvinar facilisis. Ut felis. Praesent dapibus, neque id cursus faucibus, tortor neque egestas augue, eu vulputate magna eros eu erat. Aliquam erat volutpat. Nam dui mi, tincidunt quis, accumsan porttitor, facilisis luctus, metus</p>"
+  }, {
+    type: "image",
+    caption: "This is my image it is one of the nicest images in the world",
+    role: "supporting",
+    src: "https://i.guim.co.uk/img/media/376f51d0a14fa7b1c16d98ae5d6cf48fe6ef48ad/0_0_3600_2160/master/3600.jpg?width=300&quality=85&auto=format&fit=max&s=a9ab6ac4ea8aed40de292647e0bc497f"
+  }, {
+    type: "html",
+    html: "<p>Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. Aenean ultricies mi vitae est. Mauris placerat eleifend leo. Quisque sit amet est et sapien ullamcorper pharetra. Vestibulum erat wisi, condimentum sed, commodo vitae, ornare sit amet, wisi. Aenean fermentum, elit eget tincidunt condimentum, eros ipsum rutrum orci, sagittis tempus lacus enim ac dui. Donec non enim in turpis pulvinar facilisis. Ut felis. Praesent dapibus, neque id cursus faucibus, tortor neque egestas augue, eu vulputate magna eros eu erat. Aliquam erat volutpat. Nam dui mi, tincidunt quis, accumsan porttitor, facilisis luctus, metus</p>"
+  }, {
+    type: "html",
+    html: "<p>Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. Aenean ultricies mi vitae est. Mauris placerat eleifend leo. Quisque sit amet est et sapien ullamcorper pharetra. Vestibulum erat wisi, condimentum sed, commodo vitae, ornare sit amet, wisi. Aenean fermentum, elit eget tincidunt condimentum, eros ipsum rutrum orci, sagittis tempus lacus enim ac dui. Donec non enim in turpis pulvinar facilisis. Ut felis. Praesent dapibus, neque id cursus faucibus, tortor neque egestas augue, eu vulputate magna eros eu erat. Aliquam erat volutpat. Nam dui mi, tincidunt quis, accumsan porttitor, facilisis luctus, metus</p>"
+  }, {
+    type: "image",
+    caption: "This is my image it is one of the nicest images in the world",
+    role: "thumbnail",
+    src: "https://i.guim.co.uk/img/media/376f51d0a14fa7b1c16d98ae5d6cf48fe6ef48ad/0_0_3600_2160/master/3600.jpg?width=300&quality=85&auto=format&fit=max&s=a9ab6ac4ea8aed40de292647e0bc497f"
+  }, {
+    type: "html",
+    html: "<p>Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. Aenean ultricies mi vitae est. Mauris placerat eleifend leo. Quisque sit amet est et sapien ullamcorper pharetra. Vestibulum erat wisi, condimentum sed, commodo vitae, ornare sit amet, wisi. Aenean fermentum, elit eget tincidunt condimentum, eros ipsum rutrum orci, sagittis tempus lacus enim ac dui. Donec non enim in turpis pulvinar facilisis. Ut felis. Praesent dapibus, neque id cursus faucibus, tortor neque egestas augue, eu vulputate magna eros eu erat. Aliquam erat volutpat. Nam dui mi, tincidunt quis, accumsan porttitor, facilisis luctus, metus</p>"
+  }, {
+    type: "html",
+    html: "<p>Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. Aenean ultricies mi vitae est. Mauris placerat eleifend leo. Quisque sit amet est et sapien ullamcorper pharetra. Vestibulum erat wisi, condimentum sed, commodo vitae, ornare sit amet, wisi. Aenean fermentum, elit eget tincidunt condimentum, eros ipsum rutrum orci, sagittis tempus lacus enim ac dui. Donec non enim in turpis pulvinar facilisis. Ut felis. Praesent dapibus, neque id cursus faucibus, tortor neque egestas augue, eu vulputate magna eros eu erat. Aliquam erat volutpat. Nam dui mi, tincidunt quis, accumsan porttitor, facilisis luctus, metus</p>"
+  }, {
+    type: "image",
+    caption: "This is my image it is one of the nicest images in the world",
+    role: "showcase",
+    src: "https://i.guim.co.uk/img/media/376f51d0a14fa7b1c16d98ae5d6cf48fe6ef48ad/0_0_3600_2160/master/3600.jpg?width=300&quality=85&auto=format&fit=max&s=a9ab6ac4ea8aed40de292647e0bc497f"
+  }, {
+    type: "html",
+    html: "<p>Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. Aenean ultricies mi vitae est. Mauris placerat eleifend leo. Quisque sit amet est et sapien ullamcorper pharetra. Vestibulum erat wisi, condimentum sed, commodo vitae, ornare sit amet, wisi. Aenean fermentum, elit eget tincidunt condimentum, eros ipsum rutrum orci, sagittis tempus lacus enim ac dui. Donec non enim in turpis pulvinar facilisis. Ut felis. Praesent dapibus, neque id cursus faucibus, tortor neque egestas augue, eu vulputate magna eros eu erat. Aliquam erat volutpat. Nam dui mi, tincidunt quis, accumsan porttitor, facilisis luctus, metus</p>"
+  }, {
+    type: "html",
+    html: "<p>Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. Aenean ultricies mi vitae est. Mauris placerat eleifend leo. Quisque sit amet est et sapien ullamcorper pharetra. Vestibulum erat wisi, condimentum sed, commodo vitae, ornare sit amet, wisi. Aenean fermentum, elit eget tincidunt condimentum, eros ipsum rutrum orci, sagittis tempus lacus enim ac dui. Donec non enim in turpis pulvinar facilisis. Ut felis. Praesent dapibus, neque id cursus faucibus, tortor neque egestas augue, eu vulputate magna eros eu erat. Aliquam erat volutpat. Nam dui mi, tincidunt quis, accumsan porttitor, facilisis luctus, metus</p>"
+  }, {
+    type: "image",
+    caption: "This is my image it is one of the nicest images in the world",
+    role: "immersive",
     src: "https://i.guim.co.uk/img/media/376f51d0a14fa7b1c16d98ae5d6cf48fe6ef48ad/0_0_3600_2160/master/3600.jpg?width=300&quality=85&auto=format&fit=max&s=a9ab6ac4ea8aed40de292647e0bc497f"
   }, {
     type: "html",
@@ -3884,7 +3981,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "53822" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "58199" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
