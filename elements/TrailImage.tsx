@@ -68,15 +68,9 @@ const TrailImage = ({
   const Parent = immersive ? WrapperImmersive : Wrapper;
 
   return (
-    <Parent
-      id="trail-wrapper"
-      data-open="false"
-      style={{ backgroundImage: `url(${src})` }}
-    >
+    <Parent id="trail-wrapper" style={{ backgroundImage: `url(${src})` }}>
       <CreditText data-credit="true">{credit}</CreditText>
-      <Toggle onclick="this.parentNode.dataset.open = !JSON.parse(this.parentNode.dataset.open)">
-        
-      </Toggle>
+      <Toggle data-toggle="#trail-wrapper"></Toggle>
     </Parent>
   );
 };
