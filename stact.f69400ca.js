@@ -7010,14 +7010,13 @@ var TrailImage = function TrailImage(_ref) {
   var Parent = immersive ? WrapperImmersive : Wrapper;
   return react_1.default.createElement(Parent, {
     id: "trail-wrapper",
-    "data-open": "false",
     style: {
       backgroundImage: "url(".concat(src, ")")
     }
   }, react_1.default.createElement(CreditText, {
     "data-credit": "true"
   }, credit), react_1.default.createElement(Toggle, {
-    onclick: "this.parentNode.dataset.open = !JSON.parse(this.parentNode.dataset.open)"
+    "data-toggle": "#trail-wrapper"
   }, "\uE044"));
 };
 
@@ -39884,7 +39883,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "61777" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "54338" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
